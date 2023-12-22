@@ -25,18 +25,22 @@ const AdminFileUploadImage: React.FC<AdminFileUploadImageType> = ({
   };
 
   const clockImage = () => {
-    const formData = new FormData();
-    formData.append("file", Image.file);
-    formData.append("upload_preset", preset_key);
-    fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
-      method: "POST",
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((data) => dispatch(getImage(data.secure_url)))
-      .catch((err) => console.log(err));
+    if (Image.file) {
+      const formData = new FormData();
+      formData.append("file", Image.file);
+      formData.append("upload_preset", preset_key);
+      fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((res) => res.json())
+        .then((data) => dispatch(getImage(data.secure_url)))
+        .catch((err) => console.log(err));
 
-    setIsClocked(true);
+      setIsClocked(true);
+    } else {
+      console.log("No file selected");
+    }
   };
 
   useEffect(() => {
