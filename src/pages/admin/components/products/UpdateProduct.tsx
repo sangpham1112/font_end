@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import InputElement from "../../../../components/InputElement";
 import {
   useGetProductQuery,
@@ -18,6 +18,7 @@ const UpdateProduct: React.FC = () => {
   const { data: product, isLoading, isError } = useGetProductQuery(slug!);
   const { image } = useAppSelector((state) => state.admin);
   const { formValues, onUpdate, setFormValues } = useUpdateFormHook(product!);
+  const navigate = useNavigate();
 
   const [updateProduct, { isLoading: submitLoading }] =
     useUpdateProductMutation();
@@ -25,8 +26,10 @@ const UpdateProduct: React.FC = () => {
   const handleUpdateProduct = (e: React.SyntheticEvent) => {
     e.preventDefault();
     const token = user?.token;
-    // console.log({ ...formValues, image, token });
     updateProduct({ ...formValues, image, token });
+    setTimeout(() => {
+      navigate(-1);
+    }, 1100);
   };
   //khi product thay đổi từ null sang data thì gán lại vào formValues
   useEffect(() => {
@@ -47,8 +50,7 @@ const UpdateProduct: React.FC = () => {
   return (
     <form
       className={"w-full h-full p-4 bg-white"}
-      onSubmit={handleUpdateProduct}
-    >
+      onSubmit={handleUpdateProduct}>
       <h5 className="inline-flex items-center mb-6 text-sm font-semibold text-gray-500 uppercase dark:text-gray-400">
         Edit Product
       </h5>
@@ -72,8 +74,9 @@ const UpdateProduct: React.FC = () => {
               className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Describe Product"
               value={formValues?.description}
-              onChange={(e) => onUpdate("description", e.target.value)}
-            ></textarea>
+              onChange={(e) =>
+                onUpdate("description", e.target.value)
+              }></textarea>
           </div>
           <AdminFileUploadImage
             currentImage={formValues?.image}
@@ -97,8 +100,7 @@ const UpdateProduct: React.FC = () => {
             <select
               onChange={(e) => onUpdate("category", e.target.value)}
               value={formValues.category}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
-            >
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
               <option value="TV">TV/Monitors</option>
               <option value="PC">PC</option>
               <option value="Gaming">Gaming/Console</option>
@@ -161,14 +163,12 @@ const UpdateProduct: React.FC = () => {
         <button
           type="submit"
           disabled={submitLoading}
-          className="text-white bg-green-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-        >
+          className="text-white bg-green-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
           Update product
         </button>
         <Link
           to={"/dashboard/products"}
-          className="text-white bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-        >
+          className="text-white bg-blue-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
           Back
         </Link>
       </div>

@@ -12,7 +12,7 @@ const AdminFileUploadImage: React.FC<AdminFileUploadImageType> = ({
   currentImage,
   productName,
 }) => {
-  const [Image, setImage] = useState({ preview: "" });
+  const [Image, setImage] = useState({ file: null, preview: "" });
   const [isClocked, setIsClocked] = useState(false);
   const dispatch = useAppDispatch();
   const preset_key = "zhb0jq4p";
@@ -20,14 +20,13 @@ const AdminFileUploadImage: React.FC<AdminFileUploadImageType> = ({
 
   const handleChange = (e: any) => {
     const file = e.target.files[0];
-    // console.log(file);
-    file.preview = URL.createObjectURL(file);
-    setImage(file);
+    const preview = URL.createObjectURL(file);
+    setImage({ file, preview });
   };
 
   const clockImage = () => {
     const formData = new FormData();
-    formData.append("file", Image);
+    formData.append("file", Image.file);
     formData.append("upload_preset", preset_key);
     fetch(`https://api.cloudinary.com/v1_1/${cloud_name}/image/upload`, {
       method: "POST",

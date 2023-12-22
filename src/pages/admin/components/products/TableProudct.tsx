@@ -76,10 +76,7 @@ const TableProudct: React.FC = () => {
                     Product
                   </th>
                   <th scope="col" className="p-4">
-                    Category
-                  </th>
-                  <th scope="col" className="p-4">
-                    Brand
+                    Price
                   </th>
                   <th scope="col" className="p-4">
                     Stock
@@ -88,7 +85,7 @@ const TableProudct: React.FC = () => {
                     Rating
                   </th>
                   <th scope="col" className="p-4">
-                    Last Update
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -112,14 +109,10 @@ const TableProudct: React.FC = () => {
                       </th>
                       <td className="px-4 py-3">
                         <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
-                          {item.category}
+                          {item.price}
                         </span>
                       </td>
-                      <td className="px-4 py-3">
-                        <span className="bg-primary-100 text-primary-800 text-xs font-medium px-2 py-0.5 rounded dark:bg-primary-900 dark:text-primary-300">
-                          {item.brand}
-                        </span>
-                      </td>
+
                       <td className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                         <div className="flex items-center">
                           {item.countInStock}
